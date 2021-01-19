@@ -26,20 +26,20 @@ const removeQuery = () => {
     }
 };
 
-// const getToken = async (code) => {
-//     const encodeCode = encodeURIComponent(code); 
-//     const {access_token} = await fetch(
-//         'https://6th50jazg4.execute-api.us-east-1.amazonaws.com/dev/api/token/' + '/' + encodeCode
-//     )
-//     .then((res) => {
-//         return res.json();
-//     })
-//     .catch((error) => error);
+const getToken = async (code) => {
+    const encodeCode = encodeURIComponent(code); 
+    const {access_token} = await fetch(
+        'https://6th50jazg4.execute-api.us-east-1.amazonaws.com/dev/api/token/' + '/' + encodeCode
+    )
+    .then((res) => {
+        return res.json();
+    })
+    .catch((error) => error);
 
-//     access_token && localStorage.setItem('access_token', access_token);
+    access_token && localStorage.setItem('access_token', access_token);
 
-//     return access_token;
-// };
+    return access_token;
+};
 
 export const getEvents = async () => {
     NProgress.start();
@@ -59,7 +59,7 @@ export const getEvents = async () => {
 
     if (token) {
         removeQuery();
-        const url = `https://6th50jazg4.execute-api.us-east-1.amazonaws.com/dev/api/get-events/${token}`;
+        const url = 'https://6th50jazg4.execute-api.us-east-1.amazonaws.com/dev/api/get-events' + '/' + token;
         const result = await axios.get(url);
 
         if (result.data) {
@@ -95,7 +95,7 @@ export const getAccessToken = async () => {
             const {authUrl} = results.data;
             return (window.location.href = authUrl);
         }
-        return code && getAccessToken(code);
+        return code && getToken(code);
     }
     return accessToken;
 }
